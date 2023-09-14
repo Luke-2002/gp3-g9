@@ -13,6 +13,10 @@ def download_file(url, filename):
 def count_requests(filename):
     total_requests = 0
     last_six_months_requests = 0
+    daily_requests = {}
+    weekly_requests = {}
+    monthly_requests = {}
+    file_counts = {}
 
     current_date = datetime.strptime('11/Oct/1995', '%d/%b/%Y')
     six_months_ago = current_date - timedelta(days=SIX_MONTHS_IN_DAYS)
@@ -28,8 +32,12 @@ def count_requests(filename):
                 
                 if six_months_ago <= date_obj <= current_date:
                     last_six_months_requests += 1
-            
 
+
+                #Count requests per day
+                day_key = date_obj.strftime('%Y-%m-%d')
+                daily_requests[day_key] = daily_requests.get(day_key, 0) + 1
+   
                 week_key = dat_obj.strftime('%Y-%U')
                 weekly_requests[week_key] = weekly_request.get(week_key, 0) + 1
 
@@ -38,6 +46,7 @@ def count_requests(filename):
             
                 file = line.split('"')[1].split()[1]
                 file_counts[file] = file_count.get(file, 0) + 1
+
 
             except IndexError:
                 continue
@@ -54,6 +63,7 @@ def split_log_by_month(filename):
                         month_file.write(line)
                 expect IndexError:
                     continue
+
 def main():
     # Check if log file exists
     if not os.path.exists(LOCAL_LOG_FILE):
