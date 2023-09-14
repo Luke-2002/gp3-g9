@@ -39,10 +39,25 @@ def main():
         print("Downloading log file...")
         download_file(LOG_URL, LOCAL_LOG_FILE)
 
-    total, last_six_months = count_requests(LOCAL_LOG_FILE)
+    total, last_six_months, daily_requests, weekly_requests, monthly_requests, file_counts = count_requests(LOCAL_LOG_FILE)
 
     print(f"Total requests in the last 6 months from October 11, 1995: {last_six_months}")
     print(f"Total requests in the log period: {total}")
+
+    # calculate and print requests per day
+    print("\nRequests per Day:")
+    for day, count in daily_requests.items():
+        print(f"{day}: {count} requests")
+
+    # calculate and print requests per week
+    print("\nRequests per Week:")
+    for week, count in weekly_requests.items():
+        print(f"Week {week}: {count} requests")
+
+    # calculate and print requests per month
+    print("\nRequests per Month:")
+    for month, count in monthly_requests.items():
+        print(f"{month}: {count} requests")
 
 if __name__ == "__main__":
     main()
