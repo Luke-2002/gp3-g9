@@ -28,11 +28,32 @@ def count_requests(filename):
                 
                 if six_months_ago <= date_obj <= current_date:
                     last_six_months_requests += 1
+            
+
+                week_key = dat_obj.strftime('%Y-%U')
+                weekly_requests[week_key] = weekly_request.get(week_key, 0) + 1
+
+                month_key = date_obj.strftime('%Y-%m')
+                month_request[month_key] = monthly_requests.get(month_key, 0) + 1
+            
+                file = line.split('"')[1].split()[1]
+                file_counts[file] = file_count.get(file, 0) + 1
+
             except IndexError:
                 continue
+    return total_request, last_six_months_request, daily_requests, weekly_requests, monthly_requests, file_counts
 
-    return total_requests, last_six_months_requests
-
+def split_log_by_month(filename):
+        with open(filename, 'r') as file:
+            for line in file:
+                try:
+                    date_str = line.split('[')[1].split(']')[0].split(':')[0]
+                    date_obj = datetime.strptime(date_str, '%d/%b/%Y')
+                    month = date_obj.strftime('%Y-%m')
+                    with open(f'long_{month}.txt', 'a') as month_file:
+                        month_file.write(line)
+                expect IndexError:
+                    continue
 def main():
     # Check if log file exists
     if not os.path.exists(LOCAL_LOG_FILE):
