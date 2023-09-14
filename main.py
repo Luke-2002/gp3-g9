@@ -13,6 +13,10 @@ def download_file(url, filename):
 def count_requests(filename):
     total_requests = 0
     last_six_months_requests = 0
+    daily_requests = {}
+    weekly_requests = {}
+    monthly_requests = {}
+    file_counts = {}
 
     current_date = datetime.strptime('11/Oct/1995', '%d/%b/%Y')
     six_months_ago = current_date - timedelta(days=SIX_MONTHS_IN_DAYS)
@@ -28,10 +32,15 @@ def count_requests(filename):
                 
                 if six_months_ago <= date_obj <= current_date:
                     last_six_months_requests += 1
+
+                #Count requests per day
+                day_key = date_obj.strftime('%Y-%m-%d')
+                daily_requests[day_key] = daily_requests.get(day_key, 0) + 1
+                
             except IndexError:
                 continue
 
-    return total_requests, last_six_months_requests
+    return total_requests, last_six_months_requests, daily_requests
 
 def main():
     # Check if log file exists
