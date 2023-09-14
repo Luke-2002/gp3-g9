@@ -37,13 +37,13 @@ def count_requests(filename):
                 #Count requests per day
                 day_key = date_obj.strftime('%Y-%m-%d')
                 daily_requests[day_key] = daily_requests.get(day_key, 0) + 1
-   
+                # Count requests per week
                 week_key = dat_obj.strftime('%Y-%U')
                 weekly_requests[week_key] = weekly_request.get(week_key, 0) + 1
-
+                 # Count requests per month
                 month_key = date_obj.strftime('%Y-%m')
                 month_request[month_key] = monthly_requests.get(month_key, 0) + 1
-            
+                # Extract file from the log entry
                 file = line.split('"')[1].split()[1]
                 file_counts[file] = file_count.get(file, 0) + 1
 
